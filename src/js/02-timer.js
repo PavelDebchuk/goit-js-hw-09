@@ -43,6 +43,10 @@ function play(){
     setInterval(() => {
         const second = 1000;
     oneDate = oneDate -= second;
+    if(oneDate < 0) {
+        return;
+    }
+    console.log(oneDate);
     convertMs(oneDate)
     }, 1000);
     
