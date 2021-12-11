@@ -1,67 +1,51 @@
-//В HTML есть разметка формы, в поля которой пользователь будет вводить первую задержку в миллисекундах, шаг увеличения задержки 
-//для каждого промиса после первого и количество промисов которое необходимо создать.
-//
+// //В HTML есть разметка формы, в поля которой пользователь будет вводить первую задержку в миллисекундах, шаг увеличения задержки 
+// //для каждого промиса после первого и количество промисов которое необходимо создать.
+// //
+
+
+
+
 const startPromise = document.querySelector('[type=submit]');
 
-startPromise.addEventListener('click', newCreatePromise);
-function newCreatePromise(){
-  createPromise(2, 1500)
-  .then(({ position, delay }) => {
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-  });
-}
+startPromise.addEventListener('click', onSubmitCreatePromise);
+function onSubmitCreatePromise(event){
+  event.preventDefault();
 
+  let delay = document.querySelector("[name=delay]").value;
+  let step = document.querySelector("[name=step]").value;
+  let amount = document.querySelector("[name=amount]").value;
 
-//Напиши скрипт, который при сабмите формы вызывает функцию createPromise(position, delay) столько раз,
-//сколько ввели в поле amount. При каждом вызове передай ей номер создаваемого промиса (position) и задержку учитывая введенную пользователем первую задержку (delay) и шаг (step).
-
-const createPromise = (position, delay) => {
+      const createPromise = (position, step) => {
   return new Promise((resolve, reject) => {
-    const shouldResolve = Math.random() > 0.3;
-    setTimeout(() => {
+    const shouldResolve = Math.random() > 0.3; 
+    
       if (shouldResolve) {
         // Fulfill
-          resolve('promise виполнился успешно');
-        } else {
+          resolve({position, step});          
+      }
         // Reject
-          reject('error')
-        }
-    }, delay);
+          reject({position, step});
+      
+  
+      
   })
 }
 
 
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-//   });
+  for(let i = 1; i <= amount; i += 1){
+   setTimeout(() => {
+      position = i;
+      resalt = i * step;
+  
+  createPromise(position, step)
+    .then(({ position, step }) => {
 
-
-
-//Значением промиса должен быть объект, в котором будут свойства position и delay со значениями одноименных параметров. Используй начальный код функции для выбора того, что нужно сделать с промисом - выполнить или отклонить.
-
-
-// const promise = new Promise((resole, reject) => {
-//   const calFulfill = Math.random() > 0.5;
-//   setTimeout(() => {
-//     if(calFulfill){
-//       resole('promise виполнился успешно')
-//     }
-//     reject('promise отклонен, ошибка');
-//   }, 1000);
-// })
-
-// promise.then(
-//   result => {
-//   console.log(`✅ ${result}`);
-// },
-// error => {
-//   console.log(`❌ ${error}`);
-// }
-// );
+      console.log(`✅ Fulfilled promise ${position} in ${resalt} ms`);
+    })
+    .catch(({ position, step }) => {
+      console.log(`❌ Rejected promise  ${position} in ${resalt} ms`);
+    })
+    }, delay);
+  }
+}
+  
